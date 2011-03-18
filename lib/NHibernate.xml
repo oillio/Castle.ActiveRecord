@@ -7079,6 +7079,12 @@
             that have been orphaned.
             </returns>
         </member>
+        <member name="M:NHibernate.Collection.IPersistentCollection.SetCallback(NHibernate.Collection.IPersistentCollectionCallback)">
+            <summary>
+            Sets the callback object the collection will use.
+            </summary>
+            <param name="callback"></param>
+        </member>
         <member name="P:NHibernate.Collection.IPersistentCollection.Owner">
             <summary>
             The owning entity.
@@ -7270,6 +7276,12 @@
             <summary>
             Get all "orphaned" elements
             </summary>
+        </member>
+        <member name="M:NHibernate.Collection.AbstractPersistentCollection.SetCallback(NHibernate.Collection.IPersistentCollectionCallback)">
+            <summary>
+            Sets the callback object the collection will use.
+            </summary>
+            <param name="callback"></param>
         </member>
         <member name="M:NHibernate.Collection.AbstractPersistentCollection.GetOrphans(System.Collections.ICollection,System.Collections.ICollection,System.String,NHibernate.Engine.ISessionImplementor)">
             <summary> 
@@ -7648,6 +7660,15 @@
             that was populated during <c>ReadFrom()</c> and write it to the underlying 
             PersistentSet.
             </summary>
+        </member>
+        <member name="M:NHibernate.Collection.IPersistentCollectionCallback.SessionRequired(NHibernate.Collection.IPersistentCollection)">
+            <summary>
+            Will be called when a collection requires access to it's session.
+            The returned disposable will be disposed when the action that requires
+            the session is complete.
+            </summary>
+            <param name="collection">The collection that requires a session.</param>
+            <returns></returns>
         </member>
         <member name="T:NHibernate.Collection.PersistentArrayHolder">
             <summary>
@@ -21249,7 +21270,7 @@
             Returns to the previous 'FROM' context.
             </summary>
         </member>
-        <!-- El comentario XML con formato incorrecto se omite para el miembro "T:NHibernate.Hql.Ast.ANTLR.SqlGenerator" -->
+        <!-- Badly formed XML comment ignored for member "T:NHibernate.Hql.Ast.ANTLR.SqlGenerator" -->
         <member name="T:NHibernate.Hql.Ast.ANTLR.IErrorReporter">
             <summary>
             Implementations will report or handle errors invoked by an ANTLR base parser.
@@ -28353,10 +28374,6 @@
         <member name="T:NHibernate.Intercept.IFieldInterceptor">
             <summary> Contract for field interception handlers. </summary>
         </member>
-        <member name="M:NHibernate.Intercept.IFieldInterceptor.SetSession(NHibernate.Engine.ISessionImplementor)">
-            <summary> Use to associate the entity to which we are bound to the given session. </summary>
-            <param name="session">The session to which we are now associated. </param>
-        </member>
         <member name="M:NHibernate.Intercept.IFieldInterceptor.IsInitializedField(System.String)">
             <summary> The the given field initialized for the entity to which we are bound? </summary>
             <param name="field">The name of the field to check </param>
@@ -28374,6 +28391,11 @@
         <member name="P:NHibernate.Intercept.IFieldInterceptor.IsDirty">
             <summary> Is the entity considered dirty? </summary>
             <value> True if the entity is dirty; otherwise false. </value>
+        </member>
+        <member name="P:NHibernate.Intercept.IFieldInterceptor.Session">
+            <summary>
+            The session to which the entity is bound
+            </summary>
         </member>
         <member name="P:NHibernate.Intercept.IFieldInterceptor.IsInitialized">
             <summary> Is the entity to which we are bound completely initialized? </summary>
@@ -36980,7 +37002,7 @@
             </summary>
         </member>
         <member name="M:NHibernate.Type.IType.Replace(System.Object,System.Object,NHibernate.Engine.ISessionImplementor,System.Object,System.Collections.IDictionary)">
-            <!-- No se encontraron elementos coincidentes para la siguiente etiqueta de inclusión --><include file="IType.cs.xmldoc" path="//members[@type=&quot;IType&quot;]/member[@name=&quot;M:IType.Copy&quot;]/*"/> 
+            <!-- No matching elements were found for the following include tag --><include file="IType.cs.xmldoc" path="//members[@type=&quot;IType&quot;]/member[@name=&quot;M:IType.Copy&quot;]/*"/> 
         </member>
         <member name="M:NHibernate.Type.IType.Replace(System.Object,System.Object,NHibernate.Engine.ISessionImplementor,System.Object,System.Collections.IDictionary,NHibernate.Type.ForeignKeyDirection)">
             <summary> 
@@ -37120,7 +37142,7 @@
 		</summary><value>true if this is an <see cref="T:NHibernate.Type.EntityType"/></value> 
         </member>
         <member name="P:NHibernate.Type.IType.IsAnyType">
-            <!-- No se encontraron elementos coincidentes para la siguiente etiqueta de inclusión --><include file="IType.cs.xmldoc" path="//members[@type=&quot;IType&quot;]/member[@name=&quot;P:IType.IsAnyType&quot;]/*"/> 
+            <!-- No matching elements were found for the following include tag --><include file="IType.cs.xmldoc" path="//members[@type=&quot;IType&quot;]/member[@name=&quot;P:IType.IsAnyType&quot;]/*"/> 
         </member>
         <member name="M:NHibernate.Type.AbstractType.Disassemble(System.Object,NHibernate.Engine.ISessionImplementor,System.Object)">
             <summary>
@@ -37209,10 +37231,10 @@
 		</summary><param name="mapping">The <see cref="T:NHibernate.Engine.IMapping"/> that uses this IType.</param><returns>The number of columns this IType spans.</returns><exception cref="T:NHibernate.MappingException">MappingException</exception> 
         </member>
         <member name="M:NHibernate.Type.AbstractType.NullSafeGet(System.Data.IDataReader,System.String[],NHibernate.Engine.ISessionImplementor,System.Object)">
-            <!-- No se encontraron elementos coincidentes para la siguiente etiqueta de inclusión --><include file="IType.cs.xmldoc" path="//members[@type=&quot;IType&quot;]/member[@name=&quot;M:IType.NullSafeGet(IDataReader, string[], ISessionImplementor, object)&quot;]/*"/> 
+            <!-- No matching elements were found for the following include tag --><include file="IType.cs.xmldoc" path="//members[@type=&quot;IType&quot;]/member[@name=&quot;M:IType.NullSafeGet(IDataReader, string[], ISessionImplementor, object)&quot;]/*"/> 
         </member>
         <member name="M:NHibernate.Type.AbstractType.NullSafeGet(System.Data.IDataReader,System.String,NHibernate.Engine.ISessionImplementor,System.Object)">
-            <!-- No se encontraron elementos coincidentes para la siguiente etiqueta de inclusión --><include file="IType.cs.xmldoc" path="//members[@type=&quot;IType&quot;]/member[@name=&quot;M:IType.NullSafeGet(IDataReader, string, ISessionImplementor, object)&quot;]/*"/> 
+            <!-- No matching elements were found for the following include tag --><include file="IType.cs.xmldoc" path="//members[@type=&quot;IType&quot;]/member[@name=&quot;M:IType.NullSafeGet(IDataReader, string, ISessionImplementor, object)&quot;]/*"/> 
         </member>
         <member name="M:NHibernate.Type.AbstractType.NullSafeSet(System.Data.IDbCommand,System.Object,System.Int32,System.Boolean[],NHibernate.Engine.ISessionImplementor)">
             <summary>
