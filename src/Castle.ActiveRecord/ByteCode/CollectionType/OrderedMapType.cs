@@ -34,25 +34,10 @@ namespace Castle.ActiveRecord.ByteCode
             base(role, propertyRef, isEmbeddedInXML)
         { }
 
-        public override object Instantiate(int anticipatedSize) 
-        {
-            object ret = base.Instantiate(anticipatedSize);
-            IPersistentCollection coll = ret as IPersistentCollection;
-            if(coll != null) coll.SetCallback(PersistentCollectionCallback.Instance);
-            return ret;
-        }
-
         public override IPersistentCollection Instantiate(ISessionImplementor session, ICollectionPersister persister, object key)
         {
             IPersistentCollection ret = base.Instantiate(session, persister, key);
-            ret.SetCallback(PersistentCollectionCallback.Instance);
-            return ret;
-        }
-
-        public override IPersistentCollection Wrap(ISessionImplementor session, object collection)
-        {
-            IPersistentCollection ret = base.Wrap(session, collection);
-            ret.SetCallback(PersistentCollectionCallback.Instance);
+            if (persister.IsLazy) ret.SetCallback(PersistentCollectionCallback.Instance);
             return ret;
         }
     }

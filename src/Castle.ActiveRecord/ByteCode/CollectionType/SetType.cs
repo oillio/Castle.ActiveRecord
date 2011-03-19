@@ -37,14 +37,6 @@ namespace Castle.ActiveRecord.ByteCode
             base(role, propertyRef, isEmbeddedInXML)
         { }
 
-        public override object Instantiate(int anticipatedSize) 
-        {
-            object ret = base.Instantiate(anticipatedSize);
-            IPersistentCollection coll = ret as IPersistentCollection;
-            if(coll != null) coll.SetCallback(PersistentCollectionCallback.Instance);
-            return ret;
-        }
-
         /// <summary>
         /// Instantiates a new <see cref="IPersistentCollection"/> for the set.
         /// </summary>
@@ -55,22 +47,7 @@ namespace Castle.ActiveRecord.ByteCode
         public override IPersistentCollection Instantiate(ISessionImplementor session, ICollectionPersister persister, object key)
         {
             IPersistentCollection ret = base.Instantiate(session, persister, key);
-            ret.SetCallback(PersistentCollectionCallback.Instance);
-            return ret;
-        }
-
-        /// <summary>
-        /// Wraps an <see cref="Iesi.Collections.ISet"/> in a <see cref="PersistentSet"/>.
-        /// </summary>
-        /// <param name="session">The <see cref="ISessionImplementor"/> for the collection to be a part of.</param>
-        /// <param name="collection">The unwrapped <see cref="Iesi.Collections.ISet"/>.</param>
-        /// <returns>
-        /// An <see cref="PersistentSet"/> that wraps the non NHibernate <see cref="Iesi.Collections.ISet"/>.
-        /// </returns>
-        public override IPersistentCollection Wrap(ISessionImplementor session, object collection)
-        {
-            IPersistentCollection ret = base.Wrap(session, collection);
-            ret.SetCallback(PersistentCollectionCallback.Instance);
+            if (persister.IsLazy) ret.SetCallback(PersistentCollectionCallback.Instance);
             return ret;
         }
     }

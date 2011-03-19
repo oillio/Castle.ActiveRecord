@@ -36,14 +36,6 @@ namespace Castle.ActiveRecord.ByteCode
             base(role, propertyRef)
         { }
 
-        public override object Instantiate(int anticipatedSize) 
-        {
-            object ret = base.Instantiate(anticipatedSize);
-            IPersistentCollection coll = ret as IPersistentCollection;
-            if(coll != null) coll.SetCallback(PersistentCollectionCallback.Instance);
-            return ret;
-        }
-
         /// <summary>
         /// Instantiates a new <see cref="IPersistentCollection"/> for the map.
         /// </summary>
@@ -54,23 +46,7 @@ namespace Castle.ActiveRecord.ByteCode
         public override IPersistentCollection Instantiate(ISessionImplementor session, ICollectionPersister persister, object key)
         {
             IPersistentCollection ret = base.Instantiate(session, persister, key);
-            ret.SetCallback(PersistentCollectionCallback.Instance);
-            return ret;
-        }
-
-        /// <summary>
-        /// Wraps an <see cref="IDictionary&lt;TKey,TValue&gt;"/> in a PersistentGenericMap.
-        /// </summary>
-        /// <param name="session">The <see cref="ISessionImplementor"/> for the collection to be a part of.</param>
-        /// <param name="collection">The unwrapped <see cref="IDictionary&lt;TKey,TValue&gt;"/>.</param>
-        /// <returns>
-        /// An PersistentGenericMap that wraps the 
-        /// non NHibernate <see cref="IDictionary&lt;TKey,TValue&gt;"/>.
-        /// </returns>
-        public override IPersistentCollection Wrap(ISessionImplementor session, object collection)
-        {
-            IPersistentCollection ret = base.Wrap(session, collection);
-            ret.SetCallback(PersistentCollectionCallback.Instance);
+            if (persister.IsLazy) ret.SetCallback(PersistentCollectionCallback.Instance);
             return ret;
         }
     }

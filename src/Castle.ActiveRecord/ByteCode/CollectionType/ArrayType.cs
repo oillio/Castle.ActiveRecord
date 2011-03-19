@@ -40,31 +40,9 @@ namespace Castle.ActiveRecord.ByteCode
             base(role, propertyRef, elementClass, isEmbeddedInXML)
         { }
 
-        public override object Instantiate(int anticipatedSize) 
-        {
-            IPersistentCollection ret = (IPersistentCollection)base.Instantiate(anticipatedSize);
-            ret.SetCallback(PersistentCollectionCallback.Instance);
-            return ret;
-        }
-
         public override IPersistentCollection Instantiate(ISessionImplementor session, ICollectionPersister persister, object key) {
             IPersistentCollection ret = base.Instantiate(session, persister, key);
-            ret.SetCallback(PersistentCollectionCallback.Instance);
-            return ret;
-        }
-
-        /// <summary>
-        /// Wraps a <see cref="System.Array"/> in a <see cref="PersistentArrayHolder"/>.
-        /// </summary>
-        /// <param name="session">The <see cref="ISessionImplementor"/> for the collection to be a part of.</param>
-        /// <param name="array">The unwrapped array.</param>
-        /// <returns>
-        /// An <see cref="PersistentArrayHolder"/> that wraps the non NHibernate <see cref="System.Array"/>.
-        /// </returns>
-        public override IPersistentCollection Wrap(ISessionImplementor session, object array)
-        {
-            IPersistentCollection ret = base.Wrap(session, array);
-            ret.SetCallback(PersistentCollectionCallback.Instance);
+            if (persister.IsLazy) ret.SetCallback(PersistentCollectionCallback.Instance);
             return ret;
         }
     }
