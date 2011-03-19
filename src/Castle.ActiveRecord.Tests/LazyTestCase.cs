@@ -157,5 +157,31 @@ namespace Castle.ActiveRecord.Tests
 
             Assert.AreEqual(teststring, System.Text.Encoding.UTF8.GetString(fromDb));
         }
+
+        [Test]
+        public void CanLoadLazyCollectionOutsideOfScope() {
+            ActiveRecordStarter.Initialize(GetConfigSource(), typeof(ScopelessLazy), typeof(ObjectWithLazyList),
+                                           typeof(LazyObjectListTarget));
+
+            Recreate();
+            
+            var lazy1 = new LazyObjectListTarget();
+            lazy1.Title = "test1";
+            ActiveRecordMediator.Save(lazy1);
+
+            var lazy2 = new LazyObjectListTarget();
+            lazy2.Title = "test2";
+            ActiveRecordMediator.Save(lazy2);
+
+            var obj = new ObjectWithLazyList();
+            obj.LazyList = new[] {lazy1, lazy2};
+            ActiveRecordMediator.Save(obj);
+
+            var objFromDb = (ObjectWithLazyList) ActiveRecordMediator.FindByPrimaryKey(typeof (ObjectWithLazyList), obj.Id);
+            Assert.False(NHibernate.NHibernateUtil.IsInitialized(objFromDb.LazyList));
+            Assert.AreEqual(2, objFromDb.LazyList.Count);
+            Assert.AreEqual("test1", objFromDb.LazyList[0].Title);
+            Assert.True(NHibernate.NHibernateUtil.IsInitialized(objFromDb.LazyList));
+        }
 	}
 }

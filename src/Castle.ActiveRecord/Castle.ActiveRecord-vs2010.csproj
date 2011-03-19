@@ -210,8 +210,29 @@
     <Compile Include="Attributes\WithAccessAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ByteCode\CollectionTypeFactory.cs" />
+    <Compile Include="ByteCode\CollectionType\ArrayType.cs" />
+    <Compile Include="ByteCode\CollectionType\BagType.cs" />
+    <Compile Include="ByteCode\CollectionType\GenericSortedListType.cs" />
+    <Compile Include="ByteCode\CollectionType\GenericSortedDictionaryType.cs" />
+    <Compile Include="ByteCode\CollectionType\GenericMapType.cs" />
+    <Compile Include="ByteCode\CollectionType\SortedMapType.cs" />
+    <Compile Include="ByteCode\CollectionType\OrderedMapType.cs" />
+    <Compile Include="ByteCode\CollectionType\MapType.cs" />
+    <Compile Include="ByteCode\CollectionType\GenericOrderedSetType.cs" />
+    <Compile Include="ByteCode\CollectionType\GenericSortedSetType.cs" />
+    <Compile Include="ByteCode\CollectionType\GenericSetType.cs" />
+    <Compile Include="ByteCode\CollectionType\SortedSetType.cs" />
+    <Compile Include="ByteCode\CollectionType\OrderedSetType.cs" />
+    <Compile Include="ByteCode\CollectionType\SetType.cs" />
+    <Compile Include="ByteCode\CollectionType\GenericIdentifierBagType.cs" />
+    <Compile Include="ByteCode\CollectionType\IdentifierBagType.cs" />
+    <Compile Include="ByteCode\CollectionType\GenericListType.cs" />
+    <Compile Include="ByteCode\CollectionType\ListType.cs" />
+    <Compile Include="ByteCode\CollectionType\GenericBagType.cs" />
     <Compile Include="ByteCode\LazyFieldInterceptor.cs" />
     <Compile Include="ByteCode\LazyInitializer.cs" />
+    <Compile Include="ByteCode\PersistentCollectionCallback.cs" />
     <Compile Include="ByteCode\ProxyFactory.cs" />
     <Compile Include="ByteCode\ProxyFactoryFactory.cs" />
     <Compile Include="Framework\ActiveRecordBase.cs">
