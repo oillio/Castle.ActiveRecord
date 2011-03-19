@@ -87,6 +87,35 @@ namespace Castle.ActiveRecord.Tests
 		}
 
         [Test]
+        public void LoadingLazyObjectOutsideOfScopeDoesNotInitializeIfARByteCodeIsUsed() 
+        {
+            ActiveRecordStarter.Initialize(GetConfigSource(), typeof(ScopelessLazy), typeof(VeryLazyObject2));
+
+            Recreate();
+
+            var lazy = new VeryLazyObject2();
+            lazy.Title = "test";
+            ActiveRecordMediator.Save(lazy);
+
+            var lazyFromDb = (VeryLazyObject2)ActiveRecordMediator.FindByPrimaryKey(typeof(VeryLazyObject2), lazy.Id);
+            Assert.False(NHibernate.NHibernateUtil.IsInitialized(lazyFromDb));
+        }
+
+        [Test]
+        public void LoadingLazyObjectOutsideOfScopeDoesNotInitializeIfARByteCodeIsNotUsed() {
+            ActiveRecordStarter.Initialize(GetConfigSource(), typeof(VeryLazyObject));
+
+            Recreate();
+
+            var lazy = new VeryLazyObject();
+            lazy.Title = "test";
+            ActiveRecordMediator.Save(lazy);
+
+            var lazyFromDb = (VeryLazyObject)ActiveRecordMediator.FindByPrimaryKey(typeof(VeryLazyObject), lazy.Id);
+            Assert.True(NHibernate.NHibernateUtil.IsInitialized(lazyFromDb));
+        }
+
+        [Test]
         public void CanLoadLazyBelongsToOutsideOfScope() {
             ActiveRecordStarter.Initialize(GetConfigSource(), typeof (ScopelessLazy), typeof (ObjectWithLazyAssociation),
                                            typeof (VeryLazyObject2));
