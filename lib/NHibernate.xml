@@ -6891,6 +6891,11 @@
             true if NOT has Queued operations
             </returns>
         </member>
+        <member name="M:NHibernate.Collection.IPersistentCollection.GetCurrentSession">
+            <summary>
+            Gets the current session for this collection.
+            </summary>
+        </member>
         <member name="M:NHibernate.Collection.IPersistentCollection.UnsetSession(NHibernate.Engine.ISessionImplementor)">
             <summary>
             Disassociate this collection from the given session.
@@ -7219,6 +7224,11 @@
         <member name="M:NHibernate.Collection.AbstractPersistentCollection.SetInitialized">
             <summary>
             Mark the collection as initialized.
+            </summary>
+        </member>
+        <member name="M:NHibernate.Collection.AbstractPersistentCollection.GetCurrentSession">
+            <summary>
+            Gets the current session for this collection.
             </summary>
         </member>
         <member name="M:NHibernate.Collection.AbstractPersistentCollection.UnsetSession(NHibernate.Engine.ISessionImplementor)">
