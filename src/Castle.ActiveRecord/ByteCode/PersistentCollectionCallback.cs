@@ -50,7 +50,7 @@ namespace Castle.ActiveRecord.ByteCode
             //If the session has been disconnected, reconnect before continuing with the initialization.
             if (Session == null || 
                 !Session.IsOpen ||
-                Session.PersistenceContext.ContainsCollection(collection) ||
+                !Session.PersistenceContext.ContainsCollection(collection) ||
                 !Session.IsConnected)
             {
                 newSession = ActiveRecordMediator.GetSessionFactoryHolder().CreateSession(collection.Owner.GetType());
