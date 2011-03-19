@@ -107,8 +107,31 @@ namespace Castle.ActiveRecord.Tests
             Assert.True(NHibernate.NHibernateUtil.IsInitialized(objFromDb.LazyObj));
         }
 
+        [Test]
+        public void LazyProxyRemainsAttachedToNewSessionWhenAccessed() {
+            ActiveRecordStarter.Initialize(GetConfigSource(), typeof(ScopelessLazy), typeof(ObjectWithLazyAssociation),
+                                           typeof(VeryLazyObject2));
+
+            Recreate();
+
+            var lazy = new VeryLazyObject2();
+            lazy.Title = "test";
+            ActiveRecordMediator.Save(lazy);
+
+            var obj = new ObjectWithLazyAssociation();
+            obj.LazyObj = lazy;
+            ActiveRecordMediator.Save(obj);
+
+            var objFromDb = (ObjectWithLazyAssociation)ActiveRecordMediator.FindByPrimaryKey(typeof(ObjectWithLazyAssociation), obj.Id);
+            using (new SessionScope()) {
+                Assert.AreEqual("test", objFromDb.LazyObj.Title);
+                var objSession = (objFromDb.LazyObj as NHibernate.Proxy.INHibernateProxy).HibernateLazyInitializer.Session;
+                Assert.IsTrue(objSession.IsConnected && objSession.IsOpen, "Session did not remain open after accessing lazy object within a new SessionScope");
+            }
+        }
+
 	    [Test]
-        public void CanLoadLazyPropertyOutsideOfScope() 
+        public void CanSaveAndLoadLazyPropertyOutsideOfScope() 
         {
             ActiveRecordStarter.Initialize(GetConfigSource(), typeof(ScopelessLazy), typeof(LazyObjectWithLazyBlobProperty2));
             Recreate();
@@ -123,6 +146,10 @@ namespace Castle.ActiveRecord.Tests
             id = lazy.Id;
 
             LazyObjectWithLazyBlobProperty2 lazyFromDb = (LazyObjectWithLazyBlobProperty2)ActiveRecordMediator.FindByPrimaryKey(typeof(LazyObjectWithLazyBlobProperty2), id);
+            lazyFromDb.BlobData = System.Text.Encoding.UTF8.GetBytes(teststring);
+            ActiveRecordMediator.Save(lazyFromDb);
+
+            lazyFromDb = (LazyObjectWithLazyBlobProperty2)ActiveRecordMediator.FindByPrimaryKey(typeof(LazyObjectWithLazyBlobProperty2), id);
             Assert.True(!NHibernate.NHibernateUtil.IsPropertyInitialized(lazyFromDb, "BlobData"));
 
             byte[] fromDb = lazyFromDb.BlobData;
