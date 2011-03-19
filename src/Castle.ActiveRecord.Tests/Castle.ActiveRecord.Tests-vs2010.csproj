@@ -178,6 +178,7 @@
     <Compile Include="Model\GenericModel\Entity.cs" />
     <Compile Include="Model\GenericModel\SurveyAssociation.cs" />
     <Compile Include="Model\LazyObjectWithLazyBlobProperty.cs" />
+    <Compile Include="Model\LazyObjectWithLazyBlobProperty2.cs" />
     <Compile Include="Model\Linq\Blog.cs" />
     <Compile Include="Model\Linq\Post.cs" />
     <Compile Include="Model\Linq\Widget.cs" />

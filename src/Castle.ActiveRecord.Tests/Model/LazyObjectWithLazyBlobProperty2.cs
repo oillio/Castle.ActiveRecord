@@ -1,4 +1,4 @@
-// Copyright 2004-2011 Castle Project - http://www.castleproject.org/
+﻿// Copyright 2004-2011 Castle Project - http://www.castleproject.org/
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,26 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Castle.ActiveRecord.Framework;
+
 namespace Castle.ActiveRecord.Tests.Model 
 {
-	[ActiveRecord(Lazy = true)]
-	public class LazyObjectWithLazyBlobProperty
-	{
-		private int id;
-		private byte[] blobdata;
+    [ActiveRecord(Lazy = true)]
+    public class LazyObjectWithLazyBlobProperty2 : ScopelessLazy
+    {
+        private int id;
+        private byte[] blobdata;
 
-		[PrimaryKey]
-		public virtual int Id
-		{
-			get { return id; }
-			set { id = value; }
-		}
+        [PrimaryKey]
+        public virtual int Id 
+        {
+            get { return id; }
+            set { id = value; }
+        }
 
-		[Property(Lazy = true, ColumnType="BinaryBlob")]
-		public virtual byte[] BlobData
-		{
-			get { return blobdata; }
-			set { blobdata = value; }
-		}
-	}
+        [Property(Lazy = true, ColumnType = "BinaryBlob")]
+        public virtual byte[] BlobData {
+            get { return blobdata; }
+            set { blobdata = value; }
+        }
+    }
 }

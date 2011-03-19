@@ -86,25 +86,49 @@ namespace Castle.ActiveRecord.Tests
 			}
 		}
 
-		[Test]
-		public void CanLoadLazyBelongsToOutsideOfScope()
-		{
-			ActiveRecordStarter.Initialize(GetConfigSource(), typeof(ScopelessLazy), typeof(ObjectWithLazyAssociation), typeof(VeryLazyObject2)); 
-			
-			Recreate();
+        [Test]
+        public void CanLoadLazyBelongsToOutsideOfScope() {
+            ActiveRecordStarter.Initialize(GetConfigSource(), typeof (ScopelessLazy), typeof (ObjectWithLazyAssociation),
+                                           typeof (VeryLazyObject2));
 
-			var lazy = new VeryLazyObject2();
-			lazy.Title = "test";
-			ActiveRecordMediator.Save(lazy);
+            Recreate();
 
-			var obj = new ObjectWithLazyAssociation();
-			obj.LazyObj = lazy;
-			ActiveRecordMediator.Save(obj);
+            var lazy = new VeryLazyObject2();
+            lazy.Title = "test";
+            ActiveRecordMediator.Save(lazy);
 
-			var objFromDb = (ObjectWithLazyAssociation) ActiveRecordMediator.FindByPrimaryKey(typeof(ObjectWithLazyAssociation), obj.Id);
-			Assert.False(NHibernate.NHibernateUtil.IsInitialized(objFromDb.LazyObj));
-			Assert.AreEqual("test", objFromDb.LazyObj.Title);
-			Assert.True(NHibernate.NHibernateUtil.IsInitialized(objFromDb.LazyObj));
-		}
+            var obj = new ObjectWithLazyAssociation();
+            obj.LazyObj = lazy;
+            ActiveRecordMediator.Save(obj);
+
+            var objFromDb = (ObjectWithLazyAssociation)ActiveRecordMediator.FindByPrimaryKey(typeof (ObjectWithLazyAssociation), obj.Id);
+            Assert.False(NHibernate.NHibernateUtil.IsInitialized(objFromDb.LazyObj));
+            Assert.AreEqual("test", objFromDb.LazyObj.Title);
+            Assert.True(NHibernate.NHibernateUtil.IsInitialized(objFromDb.LazyObj));
+        }
+
+	    [Test]
+        public void CanLoadLazyPropertyOutsideOfScope() 
+        {
+            ActiveRecordStarter.Initialize(GetConfigSource(), typeof(ScopelessLazy), typeof(LazyObjectWithLazyBlobProperty2));
+            Recreate();
+
+            string teststring = @"data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9YGARc5KB0XV+IAAAAddEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIFRoZSBHSU1Q72QlbgAAAF1JREFUGNO9zL0NglAAxPEfdLTs4BZM4DIO4C7OwQg2JoQ9LE1exdlYvBBeZ7jqch9//q1uH4TLzw4d6+ErXMMcXuHWxId3KOETnnXXV6MJpcq2MLaI97CER3N0vr4MkhoXe0rZigAAAABJRU5ErkJggg==";
+            int id;
+
+            LazyObjectWithLazyBlobProperty2 lazy = new LazyObjectWithLazyBlobProperty2();
+
+            lazy.BlobData = System.Text.Encoding.UTF8.GetBytes(teststring);
+            ActiveRecordMediator.Save(lazy);
+            id = lazy.Id;
+
+            LazyObjectWithLazyBlobProperty2 lazyFromDb = (LazyObjectWithLazyBlobProperty2)ActiveRecordMediator.FindByPrimaryKey(typeof(LazyObjectWithLazyBlobProperty2), id);
+            Assert.True(!NHibernate.NHibernateUtil.IsPropertyInitialized(lazyFromDb, "BlobData"));
+
+            byte[] fromDb = lazyFromDb.BlobData;
+            Assert.True(NHibernate.NHibernateUtil.IsPropertyInitialized(lazyFromDb, "BlobData"));
+
+            Assert.AreEqual(teststring, System.Text.Encoding.UTF8.GetString(fromDb));
+        }
 	}
 }
