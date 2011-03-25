@@ -6891,11 +6891,6 @@
             true if NOT has Queued operations
             </returns>
         </member>
-        <member name="M:NHibernate.Collection.IPersistentCollection.GetCurrentSession">
-            <summary>
-            Gets the current session for this collection.
-            </summary>
-        </member>
         <member name="M:NHibernate.Collection.IPersistentCollection.UnsetSession(NHibernate.Engine.ISessionImplementor)">
             <summary>
             Disassociate this collection from the given session.
@@ -7084,12 +7079,6 @@
             that have been orphaned.
             </returns>
         </member>
-        <member name="M:NHibernate.Collection.IPersistentCollection.SetCallback(NHibernate.Collection.IPersistentCollectionCallback)">
-            <summary>
-            Sets the callback object the collection will use.
-            </summary>
-            <param name="callback"></param>
-        </member>
         <member name="P:NHibernate.Collection.IPersistentCollection.Owner">
             <summary>
             The owning entity.
@@ -7226,11 +7215,6 @@
             Mark the collection as initialized.
             </summary>
         </member>
-        <member name="M:NHibernate.Collection.AbstractPersistentCollection.GetCurrentSession">
-            <summary>
-            Gets the current session for this collection.
-            </summary>
-        </member>
         <member name="M:NHibernate.Collection.AbstractPersistentCollection.UnsetSession(NHibernate.Engine.ISessionImplementor)">
             <summary>
             Disassociate this collection from the given session.
@@ -7286,12 +7270,6 @@
             <summary>
             Get all "orphaned" elements
             </summary>
-        </member>
-        <member name="M:NHibernate.Collection.AbstractPersistentCollection.SetCallback(NHibernate.Collection.IPersistentCollectionCallback)">
-            <summary>
-            Sets the callback object the collection will use.
-            </summary>
-            <param name="callback"></param>
         </member>
         <member name="M:NHibernate.Collection.AbstractPersistentCollection.GetOrphans(System.Collections.ICollection,System.Collections.ICollection,System.String,NHibernate.Engine.ISessionImplementor)">
             <summary> 
@@ -7670,15 +7648,6 @@
             that was populated during <c>ReadFrom()</c> and write it to the underlying 
             PersistentSet.
             </summary>
-        </member>
-        <member name="M:NHibernate.Collection.IPersistentCollectionCallback.SessionRequired(NHibernate.Collection.IPersistentCollection)">
-            <summary>
-            Will be called when a collection requires access to it's session.
-            The returned disposable will be disposed when the action that requires
-            the session is complete.
-            </summary>
-            <param name="collection">The collection that requires a session.</param>
-            <returns></returns>
         </member>
         <member name="T:NHibernate.Collection.PersistentArrayHolder">
             <summary>
@@ -41023,18 +40992,6 @@
             <returns>The found method or null.</returns>
             <remarks>
             The <paramref name="method"/>, in general, become from another <see cref="N:NHibernate.Type"/>.
-            </remarks>
-        </member>
-        <member name="M:NHibernate.Util.ReflectHelper.HasProperty(System.Type,System.String)">
-            <summary>
-            Try to find a property, that can be managed by NHibernate, from a given type.
-            </summary>
-            <param name="source">The given <see cref="T:System.Type"/>. </param>
-            <param name="propertyName">The name of the property to find.</param>
-            <returns>true if the property exists; otherwise false.</returns>
-            <remarks>
-            When the user defines a field.xxxxx access strategy should be because both the property and the field exists.
-            NHibernate can work even when the property does not exist but in this case the user should use the appropiate accessor.
             </remarks>
         </member>
         <member name="T:NHibernate.Util.SafetyEnumerable`1">

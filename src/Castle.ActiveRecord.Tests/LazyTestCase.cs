@@ -102,7 +102,7 @@ namespace Castle.ActiveRecord.Tests
         }
 
         [Test]
-        public void LoadingLazyObjectOutsideOfScopeDoesNotInitializeIfARByteCodeIsNotUsed() {
+        public void LoadingLazyObjectOutsideOfScopeDoesInitializeIfNHByteCodeIsUsed() {
             ActiveRecordStarter.Initialize(GetConfigSource(), typeof(VeryLazyObject));
 
             Recreate();
@@ -117,7 +117,7 @@ namespace Castle.ActiveRecord.Tests
 
         [Test]
         public void CanLoadLazyBelongsToOutsideOfScope() {
-            ActiveRecordStarter.Initialize(GetConfigSource(), typeof (ScopelessLazy), typeof (ObjectWithLazyAssociation),
+            ActiveRecordStarter.Initialize(GetConfigSource(), typeof (ScopelessLazy), typeof (ObjectWithLazyAssociation2),
                                            typeof (VeryLazyObject2));
 
             Recreate();
@@ -126,19 +126,38 @@ namespace Castle.ActiveRecord.Tests
             lazy.Title = "test";
             ActiveRecordMediator.Save(lazy);
 
-            var obj = new ObjectWithLazyAssociation();
+            var obj = new ObjectWithLazyAssociation2();
             obj.LazyObj = lazy;
             ActiveRecordMediator.Save(obj);
 
-            var objFromDb = (ObjectWithLazyAssociation)ActiveRecordMediator.FindByPrimaryKey(typeof (ObjectWithLazyAssociation), obj.Id);
+            var objFromDb = (ObjectWithLazyAssociation2)ActiveRecordMediator.FindByPrimaryKey(typeof(ObjectWithLazyAssociation2), obj.Id);
             Assert.False(NHibernate.NHibernateUtil.IsInitialized(objFromDb.LazyObj));
             Assert.AreEqual("test", objFromDb.LazyObj.Title);
             Assert.True(NHibernate.NHibernateUtil.IsInitialized(objFromDb.LazyObj));
         }
 
         [Test]
+        public void CanAddLazyToObject() {
+            ActiveRecordStarter.Initialize(GetConfigSource(), typeof(ObjectWithLazyAssociation),
+                                           typeof(VeryLazyObject));
+
+            Recreate();
+
+            using (new SessionScope()) {
+                var lazy = new VeryLazyObject();
+                lazy.Title = "test";
+                ActiveRecordMediator.Save(lazy);
+
+                var lazyFromDb = (VeryLazyObject)ActiveRecordMediator.FindByPrimaryKey(typeof(VeryLazyObject), lazy.Id);
+                var newObj = new ObjectWithLazyAssociation();
+                newObj.LazyObj = lazyFromDb;
+                ActiveRecordMediator.Create(newObj);
+            }
+        }
+
+        [Test]
         public void LazyProxyRemainsAttachedToNewSessionWhenAccessed() {
-            ActiveRecordStarter.Initialize(GetConfigSource(), typeof(ScopelessLazy), typeof(ObjectWithLazyAssociation),
+            ActiveRecordStarter.Initialize(GetConfigSource(), typeof(ScopelessLazy), typeof(ObjectWithLazyAssociation2),
                                            typeof(VeryLazyObject2));
 
             Recreate();
@@ -147,11 +166,11 @@ namespace Castle.ActiveRecord.Tests
             lazy.Title = "test";
             ActiveRecordMediator.Save(lazy);
 
-            var obj = new ObjectWithLazyAssociation();
+            var obj = new ObjectWithLazyAssociation2();
             obj.LazyObj = lazy;
             ActiveRecordMediator.Save(obj);
 
-            var objFromDb = (ObjectWithLazyAssociation)ActiveRecordMediator.FindByPrimaryKey(typeof(ObjectWithLazyAssociation), obj.Id);
+            var objFromDb = (ObjectWithLazyAssociation2)ActiveRecordMediator.FindByPrimaryKey(typeof(ObjectWithLazyAssociation2), obj.Id);
             using (new SessionScope()) {
                 Assert.AreEqual("test", objFromDb.LazyObj.Title);
                 var objSession = (objFromDb.LazyObj as NHibernate.Proxy.INHibernateProxy).HibernateLazyInitializer.Session;

@@ -211,28 +211,39 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ByteCode\CollectionTypeFactory.cs" />
-    <Compile Include="ByteCode\CollectionType\ArrayType.cs" />
-    <Compile Include="ByteCode\CollectionType\BagType.cs" />
-    <Compile Include="ByteCode\CollectionType\GenericSortedListType.cs" />
-    <Compile Include="ByteCode\CollectionType\GenericSortedDictionaryType.cs" />
-    <Compile Include="ByteCode\CollectionType\GenericMapType.cs" />
-    <Compile Include="ByteCode\CollectionType\SortedMapType.cs" />
-    <Compile Include="ByteCode\CollectionType\OrderedMapType.cs" />
-    <Compile Include="ByteCode\CollectionType\MapType.cs" />
-    <Compile Include="ByteCode\CollectionType\GenericOrderedSetType.cs" />
-    <Compile Include="ByteCode\CollectionType\GenericSortedSetType.cs" />
-    <Compile Include="ByteCode\CollectionType\GenericSetType.cs" />
-    <Compile Include="ByteCode\CollectionType\SortedSetType.cs" />
-    <Compile Include="ByteCode\CollectionType\OrderedSetType.cs" />
-    <Compile Include="ByteCode\CollectionType\SetType.cs" />
-    <Compile Include="ByteCode\CollectionType\GenericIdentifierBagType.cs" />
-    <Compile Include="ByteCode\CollectionType\IdentifierBagType.cs" />
-    <Compile Include="ByteCode\CollectionType\GenericListType.cs" />
-    <Compile Include="ByteCode\CollectionType\ListType.cs" />
-    <Compile Include="ByteCode\CollectionType\GenericBagType.cs" />
+    <Compile Include="ByteCode\Collection\CollectionHelper.cs" />
+    <Compile Include="ByteCode\Collection\Generic\PersistentGenericSet.cs" />
+    <Compile Include="ByteCode\Collection\Generic\PersistentGenericMap.cs" />
+    <Compile Include="ByteCode\Collection\Generic\PersistentGenericList.cs" />
+    <Compile Include="ByteCode\Collection\Generic\PersistentGenericIdentifierBag.cs" />
+    <Compile Include="ByteCode\Collection\Generic\PersistentGenericBag.cs" />
+    <Compile Include="ByteCode\Collection\PersistentSet.cs" />
+    <Compile Include="ByteCode\Collection\PersistentMap.cs" />
+    <Compile Include="ByteCode\Collection\PersistentList.cs" />
+    <Compile Include="ByteCode\Collection\PersistentIdentifierBag.cs" />
+    <Compile Include="ByteCode\Collection\PersistentBag.cs" />
+    <Compile Include="ByteCode\Collection\PersistentArrayHolder.cs" />
+    <Compile Include="ByteCode\Type\ArrayType.cs" />
+    <Compile Include="ByteCode\Type\BagType.cs" />
+    <Compile Include="ByteCode\Type\GenericSortedListType.cs" />
+    <Compile Include="ByteCode\Type\GenericSortedDictionaryType.cs" />
+    <Compile Include="ByteCode\Type\GenericMapType.cs" />
+    <Compile Include="ByteCode\Type\SortedMapType.cs" />
+    <Compile Include="ByteCode\Type\OrderedMapType.cs" />
+    <Compile Include="ByteCode\Type\MapType.cs" />
+    <Compile Include="ByteCode\Type\GenericOrderedSetType.cs" />
+    <Compile Include="ByteCode\Type\GenericSortedSetType.cs" />
+    <Compile Include="ByteCode\Type\GenericSetType.cs" />
+    <Compile Include="ByteCode\Type\SortedSetType.cs" />
+    <Compile Include="ByteCode\Type\OrderedSetType.cs" />
+    <Compile Include="ByteCode\Type\SetType.cs" />
+    <Compile Include="ByteCode\Type\GenericIdentifierBagType.cs" />
+    <Compile Include="ByteCode\Type\IdentifierBagType.cs" />
+    <Compile Include="ByteCode\Type\GenericListType.cs" />
+    <Compile Include="ByteCode\Type\ListType.cs" />
+    <Compile Include="ByteCode\Type\GenericBagType.cs" />
     <Compile Include="ByteCode\LazyFieldInterceptor.cs" />
     <Compile Include="ByteCode\LazyInitializer.cs" />
-    <Compile Include="ByteCode\PersistentCollectionCallback.cs" />
     <Compile Include="ByteCode\ProxyFactory.cs" />
     <Compile Include="ByteCode\ProxyFactoryFactory.cs" />
     <Compile Include="Framework\ActiveRecordBase.cs">
@@ -506,6 +517,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(RootPath)\Settings.proj" />
   <Import Project="$(BuildScriptsPath)\Castle.Common.targets" />
