@@ -41,9 +41,7 @@ namespace Castle.ActiveRecord.Framework
 		{
 			get
 			{
-				ISession session = holder.CreateSession(typeof(T));
-
-				return session.AsQueryable<T>();
+                return new NhQueryable<T>(new ARQueryProvider(holder, typeof(T)));
 			}
 		}
 	}

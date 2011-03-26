@@ -151,6 +151,19 @@ namespace Castle.ActiveRecord.Tests
 
 		}
 
+        [Test]
+        public void SavingQueryResult() {
+            ActiveRecordStarter.Initialize(GetConfigSource(), typeof(Post), typeof(Blog));
+
+            Recreate();
+
+            //This test ensures the session is released after the query.
+            //It will fail if the session was not closed.
+            new Blog().Create();
+            var b = ActiveRecordLinqBase<Blog>.Queryable.First();
+            b.Save();
+        }
+
 		[Test]
 		public void RelationsOneToMany()
 		{
