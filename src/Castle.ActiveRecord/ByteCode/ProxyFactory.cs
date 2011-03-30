@@ -17,7 +17,6 @@ namespace Castle.ActiveRecord.ByteCode
 	using System;
 	using DynamicProxy;
 	using NHibernate;
-	using NHibernate.ByteCode.Castle;
 	using NHibernate.Engine;
 	using NHibernate.Proxy;
 

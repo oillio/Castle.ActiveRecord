@@ -1188,7 +1188,10 @@ namespace Castle.ActiveRecord
 				//user will get an exception when it access the entity's property, and it will try to lazy load itself and find that
 				//it has no session.
 				//If we are in a scope, it is the user responsability to keep the scope alive if he wants to use 
-				if (!hasScope)
+
+                //This should not be done if the ActiveRecord ByteCode is in use.
+                //It can initialize proxies, even if a scope is not explicitly used.
+				if (!hasScope && ActiveRecordStarter.AutoinitializeProxy)
 				{
 					NHibernateUtil.Initialize(loaded);
 				}

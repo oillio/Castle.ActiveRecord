@@ -12,7 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Castle.ActiveRecord.Tests.Model {
+namespace Castle.ActiveRecord.Tests.Model 
+{
 	[ActiveRecord(Lazy = true)]
 	public class LazyObjectWithLazyBlobProperty
 	{

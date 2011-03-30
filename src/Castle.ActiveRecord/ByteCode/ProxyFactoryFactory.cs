@@ -28,10 +28,10 @@ namespace Castle.ActiveRecord.ByteCode
             return new ProxyFactory();
         }
 
-    	public bool IsProxy(object entity)
-    	{
-			return entity is INHibernateProxy;
-    	}
+        public bool IsProxy(object entity) 
+        {
+            return entity is INHibernateProxy;
+        }
 
     	public IProxyValidator ProxyValidator 
         {

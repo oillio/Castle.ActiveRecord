@@ -12,26 +12,30 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Castle.ActiveRecord.Tests.Model
-{
-	[ActiveRecord]
-	public class ObjectWithLazyAssociation : ScopelessLazy
-	{
-		private int id;
-		private VeryLazyObject2 lazyObj;
+using System.Collections.Generic;
 
-		[PrimaryKey]
-		public int Id
-		{
-			get { return id; }
-			set { id = value; }
-		}
+namespace Castle.ActiveRecord.Tests.Model {
+    [ActiveRecord]
+    public class ObjectWithLazyAssociation
+    {
+        private int id;
+        private VeryLazyObject lazyObj;
 
-		[BelongsTo(Lazy = FetchWhen.OnInvoke)]
-		public VeryLazyObject2 LazyObj
-		{
-			get { return lazyObj; }
-			set { lazyObj = value; }
-		}
-	}
+        [PrimaryKey]
+        public int Id 
+        {
+            get { return id; }
+            set { id = value; }
+        }
+
+        [BelongsTo(Lazy = FetchWhen.OnInvoke)]
+        public VeryLazyObject LazyObj 
+        {
+            get { return lazyObj; }
+            set { lazyObj = value; }
+        }
+
+        [HasMany(Table = "numbers")]
+        public IList<int> numbers { get; set; }
+    }
 }

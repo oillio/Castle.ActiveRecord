@@ -1,0 +1,10 @@
+glob:_ReSharper*
+glob:*.user
+glob:*.suo
+glob:build\
+glob:obj\
+glob:bin\
+glob:AssemblyInfo.cs
+glob:*.csproj.user
+glob:Thumbs.db
+glob:*.cache

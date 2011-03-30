@@ -203,11 +203,37 @@ namespace Castle.ActiveRecord
 
 				RegisterTypes(holder, source, types, true);
 
+                // If the configuration uses the AR ByteCode, do not autoinitialize proxies.
+			    AutoinitializeProxy = !UseARByteCode(configSource, types);
+
 				isInitialized = true;
 			}
 		}
 
-		/// <summary>
+        /// <summary>
+        /// Returns true if any type in the configuration uses the ActiveRecord ByteCode.
+        /// </summary>
+        public static bool UseARByteCode(IConfigurationSource source, Type[] types)
+        {
+            foreach(var type in types)
+            {
+                var config = source.GetConfiguration(type);
+                if(config != null)
+                {
+                    foreach(var child in config.Children) 
+                    {
+                        if (child.Name == "proxyfactory.factory_class" &&
+                            child.Value.Contains("Castle.ActiveRecord.ByteCode.ProxyFactoryFactory"))
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+	    /// <summary>
 		/// Initialize the mappings using the configuration and 
 		/// checking all the types on the specified <c>Assembly</c>
 		/// </summary>
@@ -588,6 +614,11 @@ namespace Castle.ActiveRecord
 		{
 			get { return configSource; }
 		}
+
+        /// <summary>
+        /// Determines if lazy objects should be immediatly initialized if they are loaded outside of a Scope.
+        /// </summary>
+        public static bool AutoinitializeProxy { get; set; }
 
 		/// <summary>
 		/// Retrieves a copy of the types registered within ActiveRecord
